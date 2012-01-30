@@ -1,0 +1,60 @@
+<project name="teamcity-agent-packager" default="default">
+
+    <target name="init">
+        <property file="build.properties"/>
+
+        <property name="name" value="teamcity-agent"/>
+        <property name="src.dir" location="src"/>
+        <property name="build.dir" location="build"/>
+        <property name="rpm.dir" location="${build.dir}/rpm"/>
+    </target>
+
+    <target name="prepare" depends="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${rpm.dir}"/>
+
+        <mkdir dir="${rpm.dir}/BUILD"/>
+        <mkdir dir="${rpm.dir}/RPMS"/>
+        <mkdir dir="${rpm.dir}/SRPMS"/>
+        <mkdir dir="${rpm.dir}/SOURCES"/>
+        <mkdir dir="${rpm.dir}/SPECS"/>
+
+        <get src="${teamcity.agent.url}"
+             dest="${build.dir}/buildAgent.zip" 
+             verbose="true"
+             usetimestamp="true"/>
+
+        <copy todir="${rpm.dir}/SOURCES" file="${build.dir}/buildAgent.zip"/>
+        <copy todir="${rpm.dir}/SOURCES" file="${src.dir}/agent.sh"/>
+        <copy todir="${rpm.dir}/SOURCES" file="${src.dir}/teamcity-agent.init"/>
+        <copy todir="${rpm.dir}/SOURCES" file="${src.dir}/teamcity-agent.conf"/>
+        <copy tofile="${rpm.dir}/SOURCES/teamcity-agent.properties" flatten="yes">
+            <zipentry zipfile="${build.dir}/buildAgent.zip" name="conf/buildAgent.dist.properties"/>
+        </copy>
+        <fixcrlf file="${rpm.dir}/SOURCES/teamcity-agent.properties"/>
+        <propertyfile file="${rpm.dir}/SOURCES/teamcity-agent.properties">
+            <entry key="workDir" value="/var/lib/teamcity-agent/work"/>
+            <entry key="tempDir" value="/var/lib/teamcity-agent/temp"/>
+        </propertyfile>
+
+        <copy todir="${rpm.dir}/SPECS" file="${src.dir}/teamcity-agent.spec">
+            <filterset>
+                <filter token="VERSION" value="${teamcity.version}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="package-rpm" depends="prepare">
+        <rpm specFile="teamcity-agent.spec"
+             topDir="${rpm.dir}"
+             cleanBuildDir="true"
+             failOnError="true"/>
+    </target>
+
+    <target name="default" depends="package-rpm"/>
+
+    <target name="clean" depends="init">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>
+

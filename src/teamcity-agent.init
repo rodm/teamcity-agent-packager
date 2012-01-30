@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Start and stop the TeamCity Build Agent
+#
+#chkconfig: 2345 80 05
+#description: TeamCity Build Agent
+
+umask 002
+
+case "$1" in
+  start)
+    /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh $1"
+    RETVAL=$?
+    ;;
+  stop)
+    /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh $1"
+    RETVAL=$?
+    ;;
+  *)
+    echo "Usage: $0 { start | stop }"
+    exit 1
+    ;;
+esac
+exit ${RETVAL}
+
