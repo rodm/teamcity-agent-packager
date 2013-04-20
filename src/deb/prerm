@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$1" = "remove" ]; then
+    invoke-rc.d teamcity-agent stop || true
+fi
+
+exit 0
+

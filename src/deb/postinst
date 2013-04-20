@@ -1,0 +1,13 @@
+#!/bin/sh
+
+TEAMCITY_USER=teamcity
+TEAMCITY_GROUP=teamcity
+
+if [ "$1" = "configure" ]; then
+
+    update-rc.d -f teamcity-agent defaults
+
+    /usr/sbin/groupadd -r $TEAMCITY_GROUP 2>/dev/null || :
+    /usr/sbin/useradd -c $TEAMCITY_USER -r -s /bin/bash -d /opt/teamcity-agent -g $TEAMCITY_GROUP $TEAMCITY_USER 2>/dev/null || :
+fi
+

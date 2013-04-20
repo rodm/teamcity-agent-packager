@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$1" = "purge" ]; then
+    update-rc.d teamcity-agent remove >/dev/null
+    userdel teamcity || true
+    groupdel teamcity || true
+fi
+

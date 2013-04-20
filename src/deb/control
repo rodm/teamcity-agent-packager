@@ -1,0 +1,10 @@
+Source: teamcity-agent
+Section: devel
+Priority: extra
+Maintainer: rod.n.mackenzie@gmail.com
+Build-Depends: debhelper (>= 7.0.5)
+Package: teamcity-agent
+Architecture: all
+Version: 4.5.6
+Description: TeamCity Build Agent
+Homepage: http://www.jetbrains.com/teamcity
