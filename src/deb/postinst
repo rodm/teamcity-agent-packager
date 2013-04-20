@@ -9,5 +9,11 @@ if [ "$1" = "configure" ]; then
 
     /usr/sbin/groupadd -r $TEAMCITY_GROUP 2>/dev/null || :
     /usr/sbin/useradd -c $TEAMCITY_USER -r -s /bin/bash -d /opt/teamcity-agent -g $TEAMCITY_GROUP $TEAMCITY_USER 2>/dev/null || :
+
+    mkdir -p /var/lib/teamcity-agent /var/log/teamcity-agent /var/run/teamcity-agent
+    chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /var/lib/teamcity-agent /var/log/teamcity-agent
+    chmod u+rwx /var/lib/teamcity-agent /var/log/teamcity-agent
+    chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /var/run/teamcity-agent
+    chmod -R 750 /var/run/teamcity-agent
 fi
 
