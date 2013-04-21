@@ -27,6 +27,7 @@ unzip -q $BUILD_DIR/$SRC_FILE -d $PKG_DIR/opt/teamcity-agent
 cp src/teamcity-agent.init $PKG_DIR/etc/init.d/teamcity-agent
 cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
 cp src/deb/* $PKG_DIR/DEBIAN
+chmod 755 $PKG_DIR/DEBIAN/*
 
 # build debian package
 dpkg --build $BUILD_DIR/pkg $BUILD_DIR/teamcity-agent_${VERSION}_all.deb
