@@ -2,7 +2,7 @@
 
 %define uid teamcity
 
-Name: teamcity-agent
+Name: @NAME@
 Version: @VERSION@
 Release: 1
 Summary: TeamCity Build Agent
@@ -34,7 +34,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d -m 755 $RPM_BUILD_ROOT/opt/%{name}
 cp -R . $RPM_BUILD_ROOT/opt/%{name}
-rmdir $RPM_BUILD_ROOT/opt/%{name}/logs
+rm -rf $RPM_BUILD_ROOT/opt/%{name}/logs
 
 install -d -m 755 $RPM_BUILD_ROOT%{_initrddir}
 install -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
