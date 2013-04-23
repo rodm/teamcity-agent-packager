@@ -11,7 +11,6 @@ VERSION=$2
 NAME=teamcity-agent
 SRC_FILE=buildAgent.zip
 BUILD_DIR=`pwd`/build
-PKG_DIR=$BUILD_DIR/pkg
 
 rm -rf $BUILD_DIR || exit $?
 
