@@ -29,7 +29,8 @@ cp src/teamcity-agent.init $BUILD_DIR/SOURCES
 cp src/teamcity-agent.conf $BUILD_DIR/SOURCES
 
 unzip -j -d $BUILD_DIR $BUILD_DIR/SOURCES/$SRC_FILE conf/buildAgent.dist.properties
-cp $BUILD_DIR/buildAgent.dist.properties $BUILD_DIR/SOURCES/teamcity-agent.properties
+sed -e "s/\r$//g" \
+    < $BUILD_DIR/buildAgent.dist.properties > $BUILD_DIR/SOURCES/teamcity-agent.properties
 
 sed -e "s/@NAME@/$NAME/g" \
     -e "s/@VERSION@/$VERSION/g" \
