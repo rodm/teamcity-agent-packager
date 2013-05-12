@@ -42,7 +42,7 @@ sed -e "s/\r$//g" \
 
 sed -e "s/@NAME@/$NAME/g" \
     -e "s/@VERSION@/$VERSION/g" \
-    < src/teamcity-agent.spec > $BUILD_DIR/SPECS/teamcity-agent.spec
+    < src/rpm/teamcity-agent.spec > $BUILD_DIR/SPECS/teamcity-agent.spec
 
 # build rpm package
 /usr/bin/rpmbuild \
