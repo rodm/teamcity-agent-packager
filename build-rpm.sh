@@ -12,6 +12,14 @@ NAME=teamcity-agent
 SRC_FILE=buildAgent.zip
 BUILD_DIR=`pwd`/build
 
+notfound() {
+    echo "$1 command not found"
+    exit 1
+}
+
+which unzip > /dev/null || notfound unzip
+which rpmbuild > /dev/null || notfound rpmbuild
+
 rm -rf $BUILD_DIR || exit $?
 
 mkdir -p $BUILD_DIR || exit $?
