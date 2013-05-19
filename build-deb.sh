@@ -28,7 +28,10 @@ unzip -q $BUILD_DIR/$SRC_FILE -d $PKG_DIR/opt/teamcity-agent
 cp src/teamcity-agent.init $PKG_DIR/etc/init.d/teamcity-agent
 cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
 cp src/teamcity-agent.conf $PKG_DIR/etc
+
 sed -e "s/\r$//g" \
+    -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
+    -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
     < $PKG_DIR/opt/teamcity-agent/conf/buildAgent.dist.properties \
     > $PKG_DIR/etc/teamcity-agent.properties
 
