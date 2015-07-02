@@ -40,7 +40,7 @@ unzip -j -d $BUILD_DIR $BUILD_DIR/SOURCES/$SRC_FILE conf/buildAgent.dist.propert
 sed -e "s/\r$//g" \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
-    < $BUILD_DIR/buildAgent.dist.properties
+    < $BUILD_DIR/buildAgent.dist.properties \
     > $BUILD_DIR/SOURCES/teamcity-agent.properties
 
 sed -e "s/@NAME@/$NAME/g" \
