@@ -1,0 +1,4 @@
+#!/bin/bash
+
+set -e
+/bin/launchctl load "/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist"

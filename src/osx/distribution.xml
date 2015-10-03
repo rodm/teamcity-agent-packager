@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>TeamCity Build Agent</title>
+    <organization>jetbrains.teamcity.BuildAgent</organization>
+    <domains enable_localSystem="true"/>
+    <options customize="never" require-scripts="true" rootVolumeOnly="true" />
+
+    <choices-outline>
+        <line choice="jetbrains.teamcity.BuildAgent"/>
+    </choices-outline>
+
+    <choice id="jetbrains.teamcity.BuildAgent"
+            visible="false"
+            title="TeamCity Build Agent"
+            description="The TeamCity Build Agent"
+            start_selected="true">
+      <pkg-ref id="jetbrains.teamcity.BuildAgent"/>
+    </choice>
+
+    <pkg-ref id="jetbrains.teamcity.BuildAgent"
+             version="0"
+             auth="root">agent.pkg</pkg-ref>
+</installer-gui-script>
