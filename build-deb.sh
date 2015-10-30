@@ -29,6 +29,10 @@ cp src/teamcity-agent.init $PKG_DIR/etc/init.d/teamcity-agent
 cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
 cp src/teamcity-agent.conf $PKG_DIR/etc
 
+chmod +x $PKG_DIR/etc/init.d/teamcity-agent
+chmod +x $PKG_DIR/usr/share/teamcity-agent/agent.sh
+chmod +x $PKG_DIR/opt/teamcity-agent/bin/*.sh
+
 sed -e "s/\r$//g" \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
