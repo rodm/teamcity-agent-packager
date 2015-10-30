@@ -15,5 +15,5 @@ if [ "$1" = "configure" ]; then
     chmod u+rwx /var/lib/teamcity-agent /var/log/teamcity-agent
     chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /var/run/teamcity-agent
     chmod -R 750 /var/run/teamcity-agent
+    chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /opt/teamcity-agent /usr/share/teamcity-agent
 fi
-
