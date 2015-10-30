@@ -5,8 +5,6 @@ TEAMCITY_GROUP=teamcity
 
 if [ "$1" = "configure" ]; then
 
-    update-rc.d -f teamcity-agent defaults
-
     /usr/sbin/groupadd -r $TEAMCITY_GROUP 2>/dev/null || :
     /usr/sbin/useradd -c $TEAMCITY_USER -r -s /bin/bash -d /opt/teamcity-agent -g $TEAMCITY_GROUP $TEAMCITY_USER 2>/dev/null || :
 
@@ -18,4 +16,6 @@ if [ "$1" = "configure" ]; then
     chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /opt/teamcity-agent /usr/share/teamcity-agent
     chown $TEAMCITY_USER:$TEAMCITY_GROUP /etc/teamcity-agent.conf
     chown $TEAMCITY_USER:$TEAMCITY_GROUP /etc/teamcity-agent.properties
+
+    update-rc.d -f teamcity-agent defaults
 fi
