@@ -33,7 +33,7 @@ cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/
 ## Update WorkingDirectory in plist file:
 /usr/libexec/PlistBuddy -c "Set :WorkingDirectory /opt/teamcity-agent" $PKG_DIR/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist
 
-sed -e "s/\r$//g" \
+sed -e $'s/\r$//g' \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
     -e "s/^systemDir=.*/systemDir=\/var\/lib\/teamcity-agent\/system/g" \
