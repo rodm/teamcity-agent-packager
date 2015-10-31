@@ -37,6 +37,7 @@ chmod +x $PKG_DIR/opt/teamcity-agent/bin/*.sh
 sed -e "s/\r$//g" \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
+    -e "s/^systemDir=.*/systemDir=\/var\/lib\/teamcity-agent\/system/g" \
     < $PKG_DIR/opt/teamcity-agent/conf/buildAgent.dist.properties \
     > $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties
 
