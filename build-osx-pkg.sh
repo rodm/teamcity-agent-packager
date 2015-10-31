@@ -17,7 +17,7 @@ rm -rf $BUILD_DIR || exit $?
 
 mkdir -p $BUILD_DIR || exit $?
 mkdir -p $BUILD_DIR/out
-mkdir -p $PKG_DIR/etc
+mkdir -p $PKG_DIR/etc/teamcity-agent
 mkdir -p $PKG_DIR/usr/share/teamcity-agent
 mkdir -p $PKG_DIR/opt/teamcity-agent
 mkdir -p $PKG_DIR/Library/LaunchDaemons
@@ -27,7 +27,7 @@ unzip -q $BUILD_DIR/$SRC_FILE -d $PKG_DIR/opt/teamcity-agent
 
 # copy files
 cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
-cp src/teamcity-agent.conf $PKG_DIR/etc
+cp src/teamcity-agent.conf $PKG_DIR/etc/teamcity-agent
 cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/Library/LaunchDaemons
 
 ## Update WorkingDirectory in plist file:
@@ -37,9 +37,9 @@ sed -e "s/\r$//g" \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
     < $PKG_DIR/opt/teamcity-agent/conf/buildAgent.dist.properties \
-    > $PKG_DIR/etc/teamcity-agent.properties
+    > $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties
 
-sed -i -e "s/wrapper.app.parameter.10=.*/wrapper.app.parameter.10=\/etc\/teamcity-agent.properties/g" \
+sed -i -e "s/wrapper.app.parameter.10=.*/wrapper.app.parameter.10=\/etc\/teamcity-agent\/teamcity-agent.properties/g" \
     $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf
 
 chmod +x $PKG_DIR/opt/teamcity-agent/launcher/bin/*

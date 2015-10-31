@@ -3,7 +3,7 @@
 # Start/stop script for TeamCity Build Agent
 #
 
-. /etc/teamcity-agent.conf
+. /etc/teamcity-agent/teamcity-agent.conf
 
 if [ ! -f $CONFIG_FILE ]; then
     echo "No agent properties file found."

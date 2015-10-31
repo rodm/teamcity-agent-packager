@@ -14,8 +14,7 @@ if [ "$1" = "configure" ]; then
     chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /var/run/teamcity-agent
     chmod -R 750 /var/run/teamcity-agent
     chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /opt/teamcity-agent /usr/share/teamcity-agent
-    chown $TEAMCITY_USER:$TEAMCITY_GROUP /etc/teamcity-agent.conf
-    chown $TEAMCITY_USER:$TEAMCITY_GROUP /etc/teamcity-agent.properties
+    chown -R $TEAMCITY_USER:$TEAMCITY_GROUP /etc/teamcity-agent
 
     update-rc.d -f teamcity-agent defaults
 fi

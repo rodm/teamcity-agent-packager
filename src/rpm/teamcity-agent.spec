@@ -42,9 +42,9 @@ install -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
 install -d -m 755 $RPM_BUILD_ROOT/usr/share/%{name}
 install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/usr/share/%{name}/agent.sh
 
-install -d -m 755 $RPM_BUILD_ROOT/etc
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/etc/%{name}.conf
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/etc/%{name}.properties
+install -d -m 755 $RPM_BUILD_ROOT/etc/%{name}
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/etc/%{name}/%{name}.conf
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/etc/%{name}/%{name}.properties
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -52,13 +52,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,%{uid},%{uid})
 /opt/%{name}
+/etc/%{name}
 %attr(755, teamcity, teamcity) %{_initrddir}/%{name}
 %attr(755, teamcity, teamcity) /opt/%{name}/bin/agent.sh
 %attr(755, teamcity, teamcity) /usr/share/%{name}/agent.sh
-%attr(644, teamcity, teamcity) /etc/%{name}.conf
-%attr(644, teamcity, teamcity) /etc/%{name}.properties
-%config(noreplace) /etc/%{name}.conf
-%config(noreplace) /etc/%{name}.properties
+%attr(644, teamcity, teamcity) /etc/%{name}/%{name}.conf
+%attr(644, teamcity, teamcity) /etc/%{name}/%{name}.properties
+%config(noreplace) /etc/%{name}/%{name}.conf
+%config(noreplace) /etc/%{name}/%{name}.properties
 
 %pre
 function create_dir {
