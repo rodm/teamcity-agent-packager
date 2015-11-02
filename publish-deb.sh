@@ -3,7 +3,7 @@
 USER=rodm
 REPOSITORY=deb
 PACKAGE=teamcity-agent
-VERSION=8.1.5
+VERSION=${VERSION:-1.0}
 
 DISTRIBUTIONS=lucid,precise,trusty
 COMPONENTS=main
