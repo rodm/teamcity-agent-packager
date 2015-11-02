@@ -1,5 +1,6 @@
 %global _binaries_in_noarch_packages_terminate_build 0
 
+%define __jar_repack 0
 %define uid teamcity
 
 Name: @NAME@
