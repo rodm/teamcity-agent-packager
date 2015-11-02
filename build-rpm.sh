@@ -1,16 +1,7 @@
 #!/bin/sh
 
-if [ $# -ne 2 ]; then
-    echo "usage: `basename $0` <build agent url> <version>"
-    exit 1
-fi
-
-AGENT_URL=$1
-VERSION=$2
-
 NAME=teamcity-agent
-SRC_FILE=buildAgent.zip
-BUILD_DIR=`pwd`/build
+VERSION=1.0
 
 notfound() {
     echo "$1 command not found"
@@ -19,6 +10,18 @@ notfound() {
 
 which unzip > /dev/null || notfound unzip
 which rpmbuild > /dev/null || notfound rpmbuild
+
+BUILD_DIR=`pwd`/build
+DOWNLOADS_DIR=`dirname $0`/downloads
+
+TEAMCITY_URL=${TEAMCITY_URL:-http://download.jetbrains.com/teamcity/TeamCity-9.1.tar.gz}
+TEAMCITY_FILE=${TEAMCITY_URL##*/}
+
+# download TeamCity distribution
+if [ ! -f $DOWNLOADS_DIR/$TEAMCITY_FILE ]; then
+    mkdir -p $DOWNLOADS_DIR
+    curl -L $TEAMCITY_URL -o $DOWNLOADS_DIR/$TEAMCITY_FILE || exit $?
+fi
 
 rm -rf $BUILD_DIR || exit $?
 
@@ -29,14 +32,15 @@ mkdir -p $BUILD_DIR/SRPMS
 mkdir -p $BUILD_DIR/SOURCES
 mkdir -p $BUILD_DIR/SPECS
 
-wget $AGENT_URL -O $BUILD_DIR/SOURCES/$SRC_FILE || exit $?
+AGENT_FILE=buildAgent.zip
+tar -xzvf $DOWNLOADS_DIR/$TEAMCITY_FILE -C $BUILD_DIR/SOURCES --strip-components 4 TeamCity/webapps/ROOT/update/$AGENT_FILE
 
 # copy files
 cp src/agent.sh $BUILD_DIR/SOURCES
 cp src/teamcity-agent.init $BUILD_DIR/SOURCES
 cp src/teamcity-agent.conf $BUILD_DIR/SOURCES
 
-unzip -j -d $BUILD_DIR $BUILD_DIR/SOURCES/$SRC_FILE conf/buildAgent.dist.properties
+unzip -j -d $BUILD_DIR $BUILD_DIR/SOURCES/$AGENT_FILE conf/buildAgent.dist.properties
 sed -e "s/\r$//g" \
     -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
     -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \

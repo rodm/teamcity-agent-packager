@@ -1,17 +1,20 @@
 #!/bin/sh
 
-if [ $# -ne 2 ]; then
-    echo "usage: `basename $0` <build agent url> <version>"
-    exit 1
-fi
-
-AGENT_URL=$1
-VERSION=$2
-
 NAME=teamcity-agent
-SRC_FILE=buildAgent.zip
+VERSION=1.0
+
 BUILD_DIR=build
 PKG_DIR=$BUILD_DIR/pkg
+DOWNLOADS_DIR=`dirname $0`/downloads
+
+TEAMCITY_URL=${TEAMCITY_URL:-http://download.jetbrains.com/teamcity/TeamCity-9.1.tar.gz}
+TEAMCITY_FILE=${TEAMCITY_URL##*/}
+
+# download TeamCity distribution
+if [ ! -f $DOWNLOADS_DIR/$TEAMCITY_FILE ]; then
+    mkdir -p $DOWNLOADS_DIR
+    curl -L $TEAMCITY_URL -o $DOWNLOADS_DIR/$TEAMCITY_FILE || exit $?
+fi
 
 rm -rf $BUILD_DIR || exit $?
 
@@ -22,15 +25,16 @@ mkdir -p $PKG_DIR/usr/share/teamcity-agent
 mkdir -p $PKG_DIR/opt/teamcity-agent
 mkdir -p $PKG_DIR/Library/LaunchDaemons
 
-curl $AGENT_URL -o $BUILD_DIR/$SRC_FILE || exit $?
-unzip -q $BUILD_DIR/$SRC_FILE -d $PKG_DIR/opt/teamcity-agent
+AGENT_FILE=buildAgent.zip
+tar -xzvf $DOWNLOADS_DIR/$TEAMCITY_FILE -C $BUILD_DIR --strip-components 4 TeamCity/webapps/ROOT/update/$AGENT_FILE
+unzip -q $BUILD_DIR/$AGENT_FILE -d $PKG_DIR/opt/teamcity-agent
 
 # copy files
 cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
 cp src/teamcity-agent.conf $PKG_DIR/etc/teamcity-agent
 cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/Library/LaunchDaemons
 
-## Update WorkingDirectory in plist file:
+# update WorkingDirectory in plist file
 /usr/libexec/PlistBuddy -c "Set :WorkingDirectory /opt/teamcity-agent" $PKG_DIR/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist
 
 sed -e $'s/\r$//g' \
