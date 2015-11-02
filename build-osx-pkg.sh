@@ -1,7 +1,7 @@
 #!/bin/sh
 
 NAME=teamcity-agent
-VERSION=1.0
+VERSION=${VERSION:-1.0}
 
 BUILD_DIR=build
 PKG_DIR=$BUILD_DIR/pkg

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 NAME=teamcity-agent
-VERSION=1.0
+VERSION=${VERSION:-1.0}
 
 notfound() {
     echo "$1 command not found"

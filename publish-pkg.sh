@@ -3,7 +3,7 @@
 USER=rodm
 REPOSITORY=pkg
 PACKAGE=teamcity-agent
-VERSION=8.1.5
+VERSION=${VERSION:-1.0}
 
 PUBLISH_URL="https://api.bintray.com/content/$USER/$REPOSITORY/$PACKAGE/$VERSION/$PACKAGE-$VERSION.pkg"
 
