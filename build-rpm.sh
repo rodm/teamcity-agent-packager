@@ -20,7 +20,7 @@ TEAMCITY_FILE=${TEAMCITY_URL##*/}
 # download TeamCity distribution
 if [ ! -f $DOWNLOADS_DIR/$TEAMCITY_FILE ]; then
     mkdir -p $DOWNLOADS_DIR
-    curl -L $TEAMCITY_URL -o $DOWNLOADS_DIR/$TEAMCITY_FILE || exit $?
+    curl -s -L $TEAMCITY_URL -o $DOWNLOADS_DIR/$TEAMCITY_FILE || exit $?
 fi
 
 rm -rf $BUILD_DIR || exit $?
