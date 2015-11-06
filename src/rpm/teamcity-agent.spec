@@ -5,7 +5,7 @@
 
 Name: @NAME@
 Version: @VERSION@
-Release: 1
+Release: @RELEASE@
 Summary: TeamCity Build Agent
 BuildArch: noarch
 Epoch: 1

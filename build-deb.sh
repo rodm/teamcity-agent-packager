@@ -1,7 +1,8 @@
 #!/bin/sh
 
 NAME=teamcity-agent
-VERSION=${VERSION:-1.0}
+VERSION=${VERSION:-`head -1 VERSION`}
+RELEASE=${RELEASE:-1}
 
 BUILD_DIR=build
 PKG_DIR=$BUILD_DIR/pkg
@@ -46,7 +47,10 @@ sed -e "s/\r$//g" \
     > $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties
 
 cp src/deb/* $PKG_DIR/DEBIAN
-sed -e "s/@VERSION@/$VERSION/g" -e "s/@NAME@/$NAME/g" < src/deb/control > $PKG_DIR/DEBIAN/control
+sed -e "s/@NAME@/$NAME/g" \
+    -e "s/@VERSION@/$VERSION/g" \
+    -e "s/@RELEASE@/$RELEASE/g" \
+    < src/deb/control > $PKG_DIR/DEBIAN/control
 chmod 755 $PKG_DIR/DEBIAN/*
 
 # build debian package

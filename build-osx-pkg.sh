@@ -1,7 +1,8 @@
 #!/bin/sh
 
 NAME=teamcity-agent
-VERSION=${VERSION:-1.0}
+VERSION=${VERSION:-`head -1 VERSION`}
+RELEASE=${RELEASE:-1}
 
 BUILD_DIR=build
 PKG_DIR=$BUILD_DIR/pkg
@@ -55,12 +56,12 @@ chmod +x src/osx/scripts/*
 # build OS X package
 pkgbuild --root $PKG_DIR \
          --identifier jetbrains.teamcity.BuildAgent \
-         --version $VERSION \
+         --version $VERSION-$RELEASE \
          --ownership recommended \
          --scripts src/osx/scripts \
          $BUILD_DIR/out/agent.pkg
 
 productbuild --distribution src/osx/distribution.xml \
              --package-path $BUILD_DIR/out \
-             --version $VERSION \
-             $BUILD_DIR/teamcity-agent-$VERSION.pkg
+             --version $VERSION-$RELEASE \
+             $BUILD_DIR/teamcity-agent-$VERSION-$RELEASE.pkg

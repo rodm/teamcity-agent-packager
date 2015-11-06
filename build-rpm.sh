@@ -1,7 +1,8 @@
 #!/bin/sh
 
 NAME=teamcity-agent
-VERSION=${VERSION:-1.0}
+VERSION=${VERSION:-`head -1 VERSION`}
+RELEASE=${RELEASE:-1}
 
 notfound() {
     echo "$1 command not found"
@@ -50,6 +51,7 @@ sed -e "s/\r$//g" \
 
 sed -e "s/@NAME@/$NAME/g" \
     -e "s/@VERSION@/$VERSION/g" \
+    -e "s/@RELEASE@/$RELEASE/g" \
     < src/rpm/teamcity-agent.spec > $BUILD_DIR/SPECS/teamcity-agent.spec
 
 # build rpm package
