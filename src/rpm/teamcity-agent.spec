@@ -21,7 +21,6 @@ Prefix: /opt
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor: JetBrains
 Packager: Rod MacKenzie <rod.n.mackenzie@gmail.com>
-Requires: jdk
 
 %description
 TeamCity Build Agent
