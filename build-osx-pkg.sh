@@ -22,7 +22,6 @@ rm -rf $BUILD_DIR || exit $?
 mkdir -p $BUILD_DIR || exit $?
 mkdir -p $BUILD_DIR/out
 mkdir -p $PKG_DIR/etc/teamcity-agent
-mkdir -p $PKG_DIR/usr/share/teamcity-agent
 mkdir -p $PKG_DIR/opt/teamcity-agent
 mkdir -p $PKG_DIR/Library/LaunchDaemons
 
@@ -31,8 +30,6 @@ tar -xzvf $DOWNLOADS_DIR/$TEAMCITY_FILE -C $BUILD_DIR --strip-components 4 TeamC
 unzip -q $BUILD_DIR/$AGENT_FILE -d $PKG_DIR/opt/teamcity-agent
 
 # copy files
-cp src/agent.sh $PKG_DIR/usr/share/teamcity-agent
-cp src/teamcity-agent.conf $PKG_DIR/etc/teamcity-agent
 cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/Library/LaunchDaemons
 
 # update WorkingDirectory in plist file
