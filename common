@@ -1,0 +1,29 @@
+#
+
+NAME=teamcity-agent
+VERSION=${VERSION:-`head -1 VERSION`}
+RELEASE=${RELEASE:-1}
+
+DOWNLOADS_DIR=`dirname $0`/downloads
+TEAMCITY_URL=${TEAMCITY_URL:-http://download.jetbrains.com/teamcity/TeamCity-9.1.tar.gz}
+TEAMCITY_FILE=${TEAMCITY_URL##*/}
+
+AGENT_FILE=buildAgent.zip
+
+downloadTeamCity() {
+    if [ ! -f $DOWNLOADS_DIR/$TEAMCITY_FILE ]; then
+        mkdir -p $DOWNLOADS_DIR
+        curl -s -L $TEAMCITY_URL -o $DOWNLOADS_DIR/$TEAMCITY_FILE || exit $?
+    fi
+}
+
+extractBuildAgent() {
+    tar -xzvf $DOWNLOADS_DIR/$TEAMCITY_FILE -C $1 --strip-components 4 TeamCity/webapps/ROOT/update/$AGENT_FILE
+}
+
+updateBuildAgentProperties() {
+    sed -e "s/^workDir=.*/workDir=\/var\/lib\/teamcity-agent\/work/g" \
+        -e "s/^tempDir=.*/tempDir=\/var\/lib\/teamcity-agent\/temp/g" \
+        -e "s/^systemDir=.*/systemDir=\/var\/lib\/teamcity-agent\/system/g" \
+        < $1 > $2
+}
