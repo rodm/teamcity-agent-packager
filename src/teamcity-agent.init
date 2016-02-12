@@ -15,6 +15,10 @@
 
 umask 002
 
+mkdir -p /var/run/teamcity-agent
+chown -R teamcity:teamcity /var/run/teamcity-agent
+chmod -R 750 /var/run/teamcity-agent
+
 check_stopped() {
   /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh status"
   until [ $? -ne 0 ]; do
