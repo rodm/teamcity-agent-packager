@@ -15,6 +15,15 @@
 
 umask 002
 
+check_stopped() {
+  /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh status"
+  until [ $? -ne 0 ]; do
+    sleep 1
+    /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh status"
+  done
+  sleep 3
+}
+
 case "$1" in
   start)
     /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh $1"
@@ -24,8 +33,18 @@ case "$1" in
     /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh $1"
     RETVAL=$?
     ;;
+  restart)
+    $0 stop
+    check_stopped
+    $0 start
+    RETVAL=$?
+    ;;
+  reload)
+    ;;
+  force-reload)
+    ;;
   *)
-    echo "Usage: $0 { start | stop }"
+    echo "Usage: $0 { start | stop | restart | reload | force-reload }"
     exit 1
     ;;
 esac
