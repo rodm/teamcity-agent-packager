@@ -20,10 +20,10 @@ chown -R teamcity:teamcity /var/run/teamcity-agent
 chmod -R 750 /var/run/teamcity-agent
 
 check_stopped() {
-  /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh status"
+  $0 status
   until [ $? -ne 0 ]; do
     sleep 1
-    /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh status"
+    $0 status
   done
   sleep 3
 }
@@ -47,8 +47,12 @@ case "$1" in
     ;;
   force-reload)
     ;;
+  status)
+    /bin/su - teamcity -c "/usr/share/teamcity-agent/agent.sh $1"
+    RETVAL=$?
+    ;;
   *)
-    echo "Usage: $0 { start | stop | restart | reload | force-reload }"
+    echo "Usage: $0 { start | stop | restart | reload | force-reload | status }"
     exit 1
     ;;
 esac
