@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(uname -s)" == "Darwin" ]; then
+    exit 0
+fi
+
 if [ -f /etc/redhat-release ]; then
     yum -y install rpm-build
 else

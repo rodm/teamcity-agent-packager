@@ -2,8 +2,11 @@
 domain = 'localdomain'
 
 nodes = [
-  { :hostname => 'precise64', :ip => '192.168.80.10', :port => 9090, :box => 'precise64', :url => '' },
-  { :hostname => 'centos67',  :ip => '192.168.80.11', :port => 9091, :box => 'centos67',  :url => '' }
+  { :hostname => 'precise64', :ip => '192.168.80.10', :port => 9090, :box => 'ubuntu/precise64', :url => '' },
+  { :hostname => 'trusty64',  :ip => '192.168.80.11', :port => 9091, :box => 'ubuntu/trusty64',  :url => '' },
+  { :hostname => 'centos67',  :ip => '192.168.80.12', :port => 9092, :box => 'boxcutter/centos67',  :url => '' },
+  { :hostname => 'centos71',  :ip => '192.168.80.13', :port => 9093, :box => 'boxcutter/centos71',  :url => '' },
+  { :hostname => 'osx1010',   :ip => '192.168.80.14', :port => 9094, :box => 'osx1010',  :url => '' }
 ]
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
