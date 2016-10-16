@@ -31,7 +31,7 @@ rm $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties.bak
 # update WorkingDirectory in plist file
 /usr/libexec/PlistBuddy -c "Set :WorkingDirectory /opt/teamcity-agent" $PKG_DIR/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist
 
-sed -i .bak -e "s/wrapper.app.parameter.10=.*/wrapper.app.parameter.10=\/etc\/teamcity-agent\/teamcity-agent.properties/g" \
+sed -i .bak -e "s|wrapper.app.parameter.10=.*|wrapper.app.parameter.10=/etc/teamcity-agent/teamcity-agent.properties|g" \
     $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf
 rm $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf.bak
 
