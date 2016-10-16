@@ -19,6 +19,7 @@ extractBuildAgent $BUILD_DIR
 unzip -q $BUILD_DIR/$AGENT_FILE -d $PKG_DIR/opt/teamcity-agent
 
 # copy files
+cp src/wrapper.conf $PKG_DIR/etc/teamcity-agent
 cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/Library/LaunchDaemons
 
 updateBuildAgentProperties \
@@ -34,6 +35,9 @@ rm $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties.bak
 sed -i .bak -e "s|wrapper.app.parameter.10=.*|wrapper.app.parameter.10=/etc/teamcity-agent/teamcity-agent.properties|g" \
     $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf
 rm $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf.bak
+
+echo "#include /etc/teamcity-agent/wrapper.conf" \
+    >> $PKG_DIR/opt/teamcity-agent/launcher/conf//wrapper.conf
 
 chmod +x $PKG_DIR/opt/teamcity-agent/launcher/bin/*
 
