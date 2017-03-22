@@ -11,7 +11,7 @@ BuildArch: noarch
 Epoch: 1
 Group: Development/Tools
 License: JetBrains
-URL: http://www.jetbrains.com/teamcity
+URL: https://www.jetbrains.com/teamcity
 Source0: buildAgent.zip
 Source1: %{name}.init
 Source2: agent.sh
