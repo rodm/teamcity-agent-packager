@@ -1,0 +1,25 @@
+set name=pkg.fmri value=teamcity-agent@$(VERSION),5.11-$(RELEASE)
+set name=pkg.summary value="TeamCity Build Agent"
+set name=pkg.description value="TeamCity Build Agent service."
+set name=info.maintainer value="Rod MacKenzie <rod.n.mackenzie@gmail.com>"
+set name=info.maintainer-url value=https://github.com/rodm/teamcity-agent-packager
+set name=info.upstream value=JetBrains
+set name=info.upstream-url value=https://www.jetbrains.com/teamcity
+set name=org.opensolaris.smf.fmri value=svc:/application/teamcity-agent value=svc:/application/teamcity-agent:default
+
+user username=teamcity group=daemon home-dir=/opt/teamcity-agent
+
+<transform file dir -> set owner teamcity>
+<transform file dir -> set group daemon>
+<transform file path=lib/svc/manifest/application/teamcity-agent.xml -> set owner root>
+<transform file path=lib/svc/manifest/application/teamcity-agent.xml -> set group sys>
+<transform file path=lib/svc/manifest/application/teamcity-agent.xml -> default restart_fmri svc:/system/manifest-import:default>
+
+<transform dir path=etc$ -> drop>
+<transform dir path=lib$ -> drop>
+<transform dir path=lib/.* -> drop>
+<transform dir path=opt$ -> drop>
+<transform dir path=usr$ -> drop>
+<transform dir path=usr/share$ -> drop>
+<transform dir path=var$ -> drop>
+<transform dir path=var/(lib|log)$ -> drop>

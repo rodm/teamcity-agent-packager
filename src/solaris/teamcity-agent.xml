@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+
+<service_bundle type='manifest' name='TeamCity Build Agent'>
+
+    <service name='application/teamcity-agent' type='service' version='1'>
+
+        <create_default_instance enabled='false'/>
+        <single_instance/>
+
+        <!-- Wait for network interfaces to be initialized -->
+        <dependency name='network' grouping='require_all' restart_on='error' type='service'>
+            <service_fmri value='svc:/milestone/network:default'/>
+        </dependency>
+
+        <!-- Wait for all local filesystems to be mounted -->
+        <dependency name='filesystem-local' grouping='require_all' restart_on='none' type='service'>
+            <service_fmri value='svc:/system/filesystem/local:default'/>
+        </dependency>
+
+        <!-- Run as "teamcity" user -->
+        <method_context>
+            <method_credential user='teamcity' group='daemon' privileges='all'/>
+        </method_context>
+
+        <exec_method
+                type='method'
+                name='start'
+                exec='/usr/share/teamcity-agent/agent.sh %m'
+                timeout_seconds='60'>
+        </exec_method>
+        <exec_method
+                type='method'
+                name='stop'
+                exec='/usr/share/teamcity-agent/agent.sh %m'
+                timeout_seconds='60'>
+        </exec_method>
+
+        <stability value='Unstable'/>
+
+        <template>
+            <common_name>
+                <loctext xml:lang='C'>TeamCity Build Agent</loctext>
+            </common_name>
+            <documentation>
+                <doc_link name='TeamCity website' uri='http://www.jetbrains.com/teamcity/'/>
+            </documentation>
+        </template>
+    </service>
+</service_bundle>
