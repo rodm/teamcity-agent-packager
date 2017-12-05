@@ -5,7 +5,7 @@ VERSION=${VERSION:-`head -1 VERSION`}
 RELEASE=${RELEASE:-1}
 
 DOWNLOADS_DIR=`dirname $0`/downloads
-TEAMCITY_URL=${TEAMCITY_URL:-https://download.jetbrains.com/teamcity/TeamCity-9.1.tar.gz}
+TEAMCITY_URL=${TEAMCITY_URL:-https://download.jetbrains.com/teamcity/TeamCity-2017.2.tar.gz}
 TEAMCITY_FILE=${TEAMCITY_URL##*/}
 
 AGENT_FILE=buildAgent.zip
