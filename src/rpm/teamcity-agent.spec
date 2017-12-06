@@ -8,6 +8,7 @@ Version: @VERSION@
 Release: @RELEASE@
 Summary: TeamCity Build Agent
 BuildArch: noarch
+AutoReqProv: no
 Epoch: 1
 Group: Development/Tools
 License: JetBrains
@@ -96,6 +97,9 @@ if [ "$1" = "0" ] ; then # uninstall
 fi
 
 %changelog
+* Wed Dec 6 2017 Rod MacKenzie <rod.n.mackenzie@gmail.com>
+- Disable automatic dependency analysis
+
 * Thu Jan 5 2012 Rod MacKenzie <rod.n.mackenzie@gmail.com>
 - Added init.d script to start/stop build agent
 - Added wrapper script to setup configuration and agent properties file
