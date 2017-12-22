@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(uname -s)" == "Darwin" ]; then
+if [ "$(uname -s)" == "Darwin" -o "$(uname -s)" == "SunOS" ]; then
     exit 0
 fi
 
