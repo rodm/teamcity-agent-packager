@@ -7,7 +7,8 @@ nodes = [
   { :hostname => 'centos69', :ip => '192.168.80.12', :port => 9092, :box => 'centos69', :url => '' },
   { :hostname => 'centos74', :ip => '192.168.80.13', :port => 9093, :box => 'centos74', :url => '' },
   { :hostname => 'osx1010',  :ip => '192.168.80.14', :port => 9094, :ram => '2048', :box => 'osx1010', :url => '' },
-  { :hostname => 'solaris',  :ip => '192.168.80.15', :port => 9095, :ram => '1536', :box => 'solaris', :url => '' }
+  { :hostname => 'solaris',  :ip => '192.168.80.15', :port => 9095, :ram => '1536', :box => 'solaris', :url => '' },
+  { :hostname => 'bionic',   :ip => '192.168.80.16', :port => 9091, :box => 'ubuntu/bionic64', :url => '' }
 ]
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
