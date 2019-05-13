@@ -116,7 +116,7 @@ project {
 
         requirements {
             contains("teamcity.agent.jvm.os.name", "Linux")
-            matches("os.linux.name", "Ubuntu")
+            matches("linux.os.name", "Ubuntu")
         }
     }
 
@@ -168,7 +168,7 @@ project {
 
         requirements {
             contains("teamcity.agent.jvm.os.name", "Linux")
-            matches("os.linux.name", "CentOS")
+            contains("linux.os.name", "CentOS")
         }
     }
 
