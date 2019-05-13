@@ -22,6 +22,10 @@ project {
     }
     vcsRoot(vcs)
 
+    params {
+        param("teamcity.ui.settings.readOnly", "true")
+    }
+
     val buildVersion = buildType {
         id("BuildVersion")
         name = "Build version"
