@@ -1,49 +1,30 @@
-package TeamCityBuildAgentPackages
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.project
 import jetbrains.buildServer.configs.kotlin.v2018_2.version
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_2.CheckoutMode
+import jetbrains.buildServer.configs.kotlin.v2018_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2018_2.FailureAction
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.exec
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2018_2.projectFeatures.VersionedSettings
-import jetbrains.buildServer.configs.kotlin.v2018_2.projectFeatures.versionedSettings
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.vcs.GitVcsRoot
 
 version = "2018.2"
 
 project {
-    uuid = "caffcd44-d3e1-4ec7-888a-15205e5ab8ae"
-    id("TeamCityBuildAgentPackages")
-    parentId("_Root")
-    name = "TeamCity Build Agent Packages"
 
-    val vcsId = "TeamCityBuildAgentPackages_TeamcityAgentPackager"
+    val vcsId = "TeamcityAgentPackager"
     val vcs = GitVcsRoot({
-        uuid = "591e8f60-7978-4122-98b3-d2446b734926"
         id(vcsId)
-        name = "teamcity agent packager"
+        name = "teamcity-agent-packager"
         url = "https://github.com/rodm/teamcity-agent-packager"
         useMirrors = false
     })
     vcsRoot(vcs)
 
-    features {
-        versionedSettings {
-            id = "PROJECT_EXT_1"
-            mode = VersionedSettings.Mode.ENABLED
-            rootExtId = vcsId
-            showChanges = true
-            settingsFormat = VersionedSettings.Format.KOTLIN
-            buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
-        }
-    }
-
     val buildVersion = BuildType({
-        uuid = "9c630268-fa72-4a67-b2ce-640c3622a54e"
-        id("TeamCityBuildAgentPackages_BuildVersion")
+        id("BuildVersion")
         name = "Build version"
 
         params {
@@ -87,14 +68,14 @@ project {
 
     val buildLinuxDebPackage = BuildType({
         uuid = "1f1b15fc-1dfe-42a6-82df-d34759279162"
-        id("TeamCityBuildAgentPackages_BuildLinuxDebPackage")
+        id("BuildLinuxDebPackage")
         name = "Build Linux deb package"
 
         artifactRules = "build/*.deb => ."
 
         params {
-            param("env.RELEASE", "%dep.TeamCityBuildAgentPackages_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.TeamCityBuildAgentPackages_BuildVersion.VERSION%")
+            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
+            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
         }
 
         vcs {
@@ -141,14 +122,14 @@ project {
 
     val buildLinuxRpmPackage = BuildType({
         uuid = "b47c7581-2da6-4a15-8727-7defbdb7b532"
-        id("TeamCityBuildAgentPackages_BuildLinuxRpmPackage")
+        id("BuildLinuxRpmPackage")
         name = "Build Linux rpm package"
 
         artifactRules = "build/RPMS/noarch/*.rpm => ."
 
         params {
-            param("env.RELEASE", "%dep.TeamCityBuildAgentPackages_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.TeamCityBuildAgentPackages_BuildVersion.VERSION%")
+            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
+            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
         }
 
         vcs {
@@ -195,14 +176,14 @@ project {
 
     val buildMacOSPackage = BuildType({
         uuid = "5f9cf62a-b70f-4fcb-9a0a-8a7ec6cdb8b2"
-        id("TeamCityBuildAgentPackages_BuildMacOsPackage")
+        id("BuildMacOsPackage")
         name = "Build macOS package"
 
         artifactRules = "build/*.pkg => ."
 
         params {
-            param("env.RELEASE", "%dep.TeamCityBuildAgentPackages_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.TeamCityBuildAgentPackages_BuildVersion.VERSION%")
+            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
+            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
         }
 
         vcs {
@@ -249,14 +230,14 @@ project {
 
     val buildSolarisPackage = BuildType({
         uuid = "f4709b29-5bd1-484e-a953-13cd7b54480a"
-        id("TeamCityBuildAgentPackages_BuildSolarisPackage")
+        id("BuildSolarisPackage")
         name = "Build Solaris package"
 
         artifactRules = "build/*.p5p => ."
 
         params {
-            param("env.RELEASE", "%dep.TeamCityBuildAgentPackages_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.TeamCityBuildAgentPackages_BuildVersion.VERSION%")
+            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
+            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
         }
 
         vcs {
@@ -302,12 +283,12 @@ project {
 
     val publishToBintray = BuildType({
         uuid = "f91a0a93-98ca-43ed-9af4-ff2ed583ccab"
-        id("TeamCityBuildAgentPackages_PublishToBintray")
+        id("PublishToBintray")
         name = "Publish packages to Bintray"
 
         params {
-            param("env.RELEASE", "%dep.TeamCityBuildAgentPackages_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.TeamCityBuildAgentPackages_BuildVersion.VERSION%")
+            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
+            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
             param("env.UPLOAD_DIR", "files")
         }
 
