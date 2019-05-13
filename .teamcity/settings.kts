@@ -1,7 +1,6 @@
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.project
 import jetbrains.buildServer.configs.kotlin.v2018_2.version
-import jetbrains.buildServer.configs.kotlin.v2018_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_2.CheckoutMode
 import jetbrains.buildServer.configs.kotlin.v2018_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2018_2.FailureAction
@@ -15,15 +14,15 @@ version = "2018.2"
 project {
 
     val vcsId = "TeamcityAgentPackager"
-    val vcs = GitVcsRoot({
+    val vcs = GitVcsRoot {
         id(vcsId)
         name = "teamcity-agent-packager"
         url = "https://github.com/rodm/teamcity-agent-packager"
         useMirrors = false
-    })
+    }
     vcsRoot(vcs)
 
-    val buildVersion = BuildType({
+    val buildVersion = buildType {
         id("BuildVersion")
         name = "Build version"
 
@@ -63,11 +62,9 @@ project {
         requirements {
             contains("teamcity.agent.jvm.os.name", "Linux")
         }
-    })
-    buildType(buildVersion)
+    }
 
-    val buildLinuxDebPackage = BuildType({
-        uuid = "1f1b15fc-1dfe-42a6-82df-d34759279162"
+    val buildLinuxDebPackage = buildType {
         id("BuildLinuxDebPackage")
         name = "Build Linux deb package"
 
@@ -117,11 +114,9 @@ project {
             contains("teamcity.agent.jvm.os.name", "Linux")
             matches("os.linux.name", "Ubuntu")
         }
-    })
-    buildType(buildLinuxDebPackage)
+    }
 
-    val buildLinuxRpmPackage = BuildType({
-        uuid = "b47c7581-2da6-4a15-8727-7defbdb7b532"
+    val buildLinuxRpmPackage = buildType {
         id("BuildLinuxRpmPackage")
         name = "Build Linux rpm package"
 
@@ -171,11 +166,9 @@ project {
             contains("teamcity.agent.jvm.os.name", "Linux")
             matches("os.linux.name", "CentOS")
         }
-    })
-    buildType(buildLinuxRpmPackage)
+    }
 
-    val buildMacOSPackage = BuildType({
-        uuid = "5f9cf62a-b70f-4fcb-9a0a-8a7ec6cdb8b2"
+    val buildMacOSPackage = buildType {
         id("BuildMacOsPackage")
         name = "Build macOS package"
 
@@ -225,11 +218,9 @@ project {
         requirements {
             contains("teamcity.agent.jvm.os.name", "Mac OS X")
         }
-    })
-    buildType(buildMacOSPackage)
+    }
 
-    val buildSolarisPackage = BuildType({
-        uuid = "f4709b29-5bd1-484e-a953-13cd7b54480a"
+    val buildSolarisPackage = buildType {
         id("BuildSolarisPackage")
         name = "Build Solaris package"
 
@@ -278,11 +269,9 @@ project {
         requirements {
             contains("teamcity.agent.jvm.os.name", "SunOS")
         }
-    })
-    buildType(buildSolarisPackage)
+    }
 
-    val publishToBintray = BuildType({
-        uuid = "f91a0a93-98ca-43ed-9af4-ff2ed583ccab"
+    val publishToBintray = buildType {
         id("PublishToBintray")
         name = "Publish packages to Bintray"
 
@@ -384,7 +373,6 @@ project {
         requirements {
             contains("teamcity.agent.jvm.os.name", "Linux")
         }
-    })
-    buildType(publishToBintray)
+    }
     buildTypesOrder = arrayListOf(buildVersion, buildLinuxDebPackage, buildLinuxRpmPackage, buildMacOSPackage, buildSolarisPackage, publishToBintray)
 }
