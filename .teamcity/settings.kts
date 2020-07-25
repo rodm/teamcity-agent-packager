@@ -322,7 +322,7 @@ project {
         }
 
         failureConditions {
-            executionTimeoutMin = 15
+            executionTimeoutMin = 20
         }
 
         features {
