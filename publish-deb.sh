@@ -8,7 +8,7 @@ RELEASE=${RELEASE:-1}
 PACKAGE_FILENAME=${PACKAGE}_${VERSION}-${RELEASE}_all.deb
 UPLOAD_DIR=${UPLOAD_DIR:-build}
 
-DISTRIBUTIONS=precise,trusty,xenial,bionic
+DISTRIBUTIONS=precise,trusty,xenial,bionic,focal
 COMPONENTS=main
 ARCHITECTURES=i386,amd64
 
