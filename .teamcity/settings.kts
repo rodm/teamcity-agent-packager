@@ -6,6 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.FailureAction
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.exec
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.ScriptBuildStep.ImagePlatform.Linux
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
@@ -50,6 +51,8 @@ project {
                 echo "##teamcity[setParameter name='VERSION' value='${'$'}VERSION']"
                 echo "##teamcity[setParameter name='RELEASE' value='${'$'}RELEASE']"
             """.trimIndent()
+                dockerImagePlatform = Linux
+                dockerImage = "ubuntu:20.04"
             }
         }
 
@@ -85,9 +88,17 @@ project {
         }
 
         steps {
-            exec {
-                path = "/bin/sh"
-                arguments = "-x build-deb.sh"
+            script {
+                scriptContent = """
+                #!/bin/bash
+                
+                apt-get update -y
+                apt-get install -y -q curl unzip
+                
+                /bin/sh -x ./build-deb.sh
+                """.trimIndent()
+                dockerImagePlatform = Linux
+                dockerImage = "ubuntu:20.04"
             }
         }
 
@@ -137,9 +148,16 @@ project {
         }
 
         steps {
-            exec {
-                path = "/bin/sh"
-                arguments = "-x build-rpm.sh"
+            script {
+                scriptContent = """
+                #!/bin/bash
+                
+                yum install -y -q which unzip rpm-build
+                
+                /bin/sh -x ./build-rpm.sh
+                """.trimIndent()
+                dockerImagePlatform = Linux
+                dockerImage = "centos:8.3.2011"
             }
         }
 
