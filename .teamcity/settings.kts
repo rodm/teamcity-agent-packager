@@ -10,7 +10,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.ScriptBuildStep.I
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
-version = "2020.1"
+version = "2020.2"
 
 project {
 
