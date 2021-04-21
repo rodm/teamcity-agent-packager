@@ -224,57 +224,6 @@ project {
         }
     }
 
-    val buildSolarisPackage = buildType {
-        id("BuildSolarisPackage")
-        name = "Build Solaris package"
-
-        artifactRules = "build/*.p5p => ."
-
-        params {
-            param("env.RELEASE", "%dep.${DslContext.projectId}_BuildVersion.RELEASE%")
-            param("env.VERSION", "%dep.${DslContext.projectId}_BuildVersion.VERSION%")
-        }
-
-        vcs {
-            root(vcs)
-            checkoutMode = CheckoutMode.ON_SERVER
-        }
-
-        steps {
-            exec {
-                path = "/bin/sh"
-                arguments = "-x build-solaris-ips.sh"
-            }
-        }
-
-        triggers {
-            vcs {
-            }
-        }
-
-        failureConditions {
-            executionTimeoutMin = 5
-        }
-
-        features {
-            feature {
-                type = "perfmon"
-            }
-        }
-
-        dependencies {
-            dependency(buildVersion) {
-                snapshot {
-                    onDependencyFailure = FailureAction.FAIL_TO_START
-                }
-            }
-        }
-
-        requirements {
-            contains("teamcity.agent.jvm.os.name", "SunOS")
-        }
-    }
-
     val publishToBintray = buildType {
         id("PublishToBintray")
         name = "Publish packages to Bintray"
@@ -314,11 +263,6 @@ project {
                 path = "/bin/sh"
                 arguments = "-x publish-pkg.sh"
             }
-            exec {
-                name = "Upload and publish p5p"
-                path = "/bin/sh"
-                arguments = "-x publish-solaris-ips.sh"
-            }
         }
 
         failureConditions {
@@ -332,16 +276,6 @@ project {
         }
 
         dependencies {
-            dependency(buildSolarisPackage) {
-                snapshot {
-                    onDependencyFailure = FailureAction.FAIL_TO_START
-                }
-
-                artifacts {
-                    cleanDestination = true
-                    artifactRules = "teamcity-agent-%env.VERSION%-%env.RELEASE%.p5p => %env.UPLOAD_DIR%"
-                }
-            }
             dependency(buildMacOSPackage) {
                 snapshot {
                     onDependencyFailure = FailureAction.FAIL_TO_START
@@ -378,5 +312,5 @@ project {
             contains("teamcity.agent.jvm.os.name", "Linux")
         }
     }
-    buildTypesOrder = arrayListOf(buildVersion, buildLinuxDebPackage, buildLinuxRpmPackage, buildMacOSPackage, buildSolarisPackage, publishToBintray)
+    buildTypesOrder = arrayListOf(buildVersion, buildLinuxDebPackage, buildLinuxRpmPackage, buildMacOSPackage, publishToBintray)
 }
