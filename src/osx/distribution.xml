@@ -2,8 +2,8 @@
 <installer-gui-script minSpecVersion="1">
     <title>TeamCity Build Agent</title>
     <organization>jetbrains.teamcity.BuildAgent</organization>
-    <domains enable_localSystem="true"/>
-    <options customize="never" require-scripts="true" rootVolumeOnly="true" />
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="true" />
+    <options customize="never" require-scripts="true" />
 
     <choices-outline>
         <line choice="jetbrains.teamcity.BuildAgent"/>
@@ -18,6 +18,5 @@
     </choice>
 
     <pkg-ref id="jetbrains.teamcity.BuildAgent"
-             version="0"
-             auth="root">agent.pkg</pkg-ref>
+             version="0">agent.pkg</pkg-ref>
 </installer-gui-script>

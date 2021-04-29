@@ -1,4 +1,23 @@
 #!/bin/bash
 
 set -e
-/bin/launchctl load "/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist"
+
+if [ "$USER" == "root" ]; then
+  PLIST_FILE=$2/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist
+else
+  PLIST_FILE=$2/Library/LaunchAgents/jetbrains.teamcity.BuildAgent.plist
+  mkdir -p $2/Library/LaunchAgents
+fi
+
+cp $2/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PLIST_FILE
+
+/usr/libexec/PlistBuddy \
+  -c "Delete :Debug" \
+  -c "Delete :OnDemand" \
+  -c "Set :StandardOutPath logs/launchd.out.log" \
+  -c "Set :WorkingDirectory $2/opt/teamcity-agent" \
+  $PLIST_FILE
+
+/bin/launchctl load $PLIST_FILE
+
+exit 0

@@ -1,6 +1,14 @@
 #!/bin/bash
 
 set -e
+
 if /bin/launchctl list "jetbrains.teamcity.BuildAgent" &> /dev/null; then
-    /bin/launchctl unload "/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist"
+    if [ -f "$2/Library/LaunchAgents/jetbrains.teamcity.BuildAgent.plist" ]; then
+        /bin/launchctl unload "$2/Library/LaunchAgents/jetbrains.teamcity.BuildAgent.plist"
+    fi
+    if [ -f "/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist" ]; then
+        /bin/launchctl unload "/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist"
+    fi
 fi
+
+exit 0

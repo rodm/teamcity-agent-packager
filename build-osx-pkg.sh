@@ -9,37 +9,21 @@ rm -rf $BUILD_DIR || exit $?
 
 mkdir -p $BUILD_DIR || exit $?
 mkdir -p $BUILD_DIR/out
-mkdir -p $PKG_DIR/etc/teamcity-agent
 mkdir -p $PKG_DIR/opt/teamcity-agent
-mkdir -p $PKG_DIR/Library/LaunchDaemons
 
 downloadTeamCity
 extractBuildAgent $BUILD_DIR
 
 unzip -q $BUILD_DIR/$AGENT_FILE -d $PKG_DIR/opt/teamcity-agent
 
-# copy files
-cp src/wrapper.conf $PKG_DIR/etc/teamcity-agent
-cp $PKG_DIR/opt/teamcity-agent/bin/jetbrains.teamcity.BuildAgent.plist $PKG_DIR/Library/LaunchDaemons
+# copy properties file
+cp $PKG_DIR/opt/teamcity-agent/conf/buildAgent.dist.properties \
+    $PKG_DIR/opt/teamcity-agent/conf/buildAgent.properties
 
-updateBuildAgentProperties \
-    $PKG_DIR/opt/teamcity-agent/conf/buildAgent.dist.properties \
-    $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties
+sed -i .bak -e $'s/\r$//g' $PKG_DIR/opt/teamcity-agent/conf/buildAgent.properties
+rm $PKG_DIR/opt/teamcity-agent/conf/buildAgent.properties.bak
 
-sed -i .bak -e $'s/\r$//g' $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties
-rm $PKG_DIR/etc/teamcity-agent/teamcity-agent.properties.bak
-
-# update WorkingDirectory in plist file
-/usr/libexec/PlistBuddy -c "Set :WorkingDirectory /opt/teamcity-agent" $PKG_DIR/Library/LaunchDaemons/jetbrains.teamcity.BuildAgent.plist
-
-sed -i .bak -e "s|wrapper.app.parameter.10=.*|wrapper.app.parameter.10=/etc/teamcity-agent/teamcity-agent.properties|g" \
-    $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf
-rm $PKG_DIR/opt/teamcity-agent/launcher/conf/wrapper.conf.bak
-
-echo "#include /etc/teamcity-agent/wrapper.conf" \
-    >> $PKG_DIR/opt/teamcity-agent/launcher/conf//wrapper.conf
-
-chmod +x $PKG_DIR/opt/teamcity-agent/launcher/bin/*
+mkdir $PKG_DIR/opt/teamcity-agent/logs
 
 # make the preinstall and postinstall scripts executable
 chmod +x src/osx/scripts/*
